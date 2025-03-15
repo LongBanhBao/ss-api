@@ -22,7 +22,9 @@ settings = get_settings()
 
 app = FastAPI(lifespan=lifespan)
 
-origins = [settings.FRONTEND_ORIGIN if settings.ENVIRONMENT != "development" else "*"]
+origins = [
+    settings.FRONTEND_ORIGIN if settings.ENVIRONMENT.lower() != "development" else "*"
+]
 
 app.add_middleware(
     CORSMiddleware,

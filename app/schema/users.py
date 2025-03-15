@@ -46,3 +46,7 @@ class ProfilePublic(UserPublic):
     created_assignments: list[AssignmentForProfile] = []
     submissions: list[SubmissionForProfile] = []
     saved_codes: list[SavedCodeForProfile] = []
+
+
+class ForgotPassword(BaseModel):
+    email: str

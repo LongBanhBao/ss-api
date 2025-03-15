@@ -1,13 +1,23 @@
-from typing import Annotated
-from uuid import UUID
+from typing import Annotated, Dict
+from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import select
 
+from app.config import get_settings
 from app.database import SessionDep
+from app.email import send_email
 from app.models import User
 from app.routers.auth import CurrentUser, get_password_hash, get_role
-from app.schema.users import ProfilePublic, UserCreate, UserPublic, UserUpdate
+from app.schema.users import (
+    ForgotPassword,
+    ProfilePublic,
+    UserCreate,
+    UserPublic,
+    UserUpdate,
+)
+
+settings = get_settings()
 
 CurrentUserWithRolePassed = Annotated[
     CurrentUser, Depends(get_role(["admin", "student"]))
@@ -80,3 +90,43 @@ async def delete_user(
     session.delete(user)
     session.commit()
     return user
+
+
+def createContent(user: User, new_password: str) -> str:
+    return f"""
+    <html>
+    <body>
+    <h2>Reset Password</h2>
+    <p>Dear {user.first_name} {user.last_name},</p>
+    <p>Your password has been reset successfully.</p>
+    <p>Your new password is: <strong>{new_password}</strong></p>
+    <p>Best regards,</p>
+    <p>Admin</p>
+    </body>
+    </html>
+    """
+
+
+@router.post("/forgot", tags=["auth"], response_model=Dict)
+async def forgot_password(data: ForgotPassword, session: SessionDep) -> Dict:
+    user = session.exec(select(User).where(User.email == data.email)).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Không tìm thấy người dùng",
+        )
+    new_password = uuid4().hex[:6]
+    user.password = get_password_hash(new_password)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    try:
+        r = await send_email(
+            user.email, "Reset Password", createContent(user, new_password)
+        )
+        return r
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e),
+        )

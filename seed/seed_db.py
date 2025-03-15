@@ -1,11 +1,13 @@
-from app.database import create_db_and_tables, engine
+from datetime import date
+from random import randint
+
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
-from datetime import date
+
 import app.models as models
-from app.run_code import create_result
+from app.database import create_db_and_tables, engine
 from app.routers.auth import get_password_hash
-from random import randint
+from app.run_code import create_result
 
 
 def create_user(session: Session, email: str, role: str):
@@ -144,7 +146,8 @@ def main():
 
     with Session(engine) as session:
         # Tạo người dùng
-        admin = create_user(session, "admin@gmail.com", "admin")
+        admin = create_user(session, "hieuvnkudo040303@gmail.com", "admin")
+        create_user(session, "learnshullkudo@gmail.com", "teacher")
         teacher_main = create_user(session, "teacher_main@gmail.com", "teacher")
         teacher_other = create_user(session, "teacher_other@gmail.com", "teacher")
         students = [

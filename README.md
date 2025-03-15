@@ -32,7 +32,8 @@ pytest
 ```bash
 Get-ChildItem -Path . -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
 Remove-Item -Recurse -Force .pytest_cache
-Remove-Item -Force database.db
+Remove-Item -Force *.db
+Get-ChildItem -Path . -Recurse -Directory -Filter ".venv" | Remove-Item -Recurse -Force
 ```
 
 # Loại bỏ database.db

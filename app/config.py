@@ -16,6 +16,12 @@ class Settings(BaseSettings):
 
     ENVIRONMENT: str = "development"
 
+    EMAIL_HOST: str
+    EMAIL_PORT: int = 587
+    EMAIL_USERNAME: str
+    EMAIL_PASSWORD: str
+    EMAIL_FROM: str
+
     model_config = SettingsConfigDict(env_file=".env")
 
 

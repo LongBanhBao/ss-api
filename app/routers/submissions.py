@@ -1,10 +1,11 @@
-from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Annotated
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.database import SessionDep
+from app.models import Assignment, Submission
 from app.routers.auth import CurrentUser, get_role
-from app.models import Submission, Assignment
 from app.run_code import create_result
 from app.schema.submissions import SubmissionCreate, SubmissionPublic
 

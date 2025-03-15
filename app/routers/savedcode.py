@@ -1,10 +1,11 @@
-from uuid import UUID
 from datetime import datetime
-from sqlmodel import select
+from uuid import UUID
+
 from fastapi import APIRouter, HTTPException, status
+from sqlmodel import select
 
 from app.database import SessionDep
-from app.models import SavedCode, SavedCodeBase, Assignment, User
+from app.models import Assignment, SavedCode, SavedCodeBase, User
 from app.routers.auth import CurrentUser
 
 router = APIRouter(prefix="/savedcodes", tags=["savedcodes"])

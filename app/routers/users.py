@@ -1,12 +1,13 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import select
 from uuid import UUID
 
-from app.models import User
-from app.schema.users import ProfilePublic, UserPublic, UserCreate, UserUpdate
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlmodel import select
+
 from app.database import SessionDep
-from app.routers.auth import get_password_hash, CurrentUser, get_role
+from app.models import User
+from app.routers.auth import CurrentUser, get_password_hash, get_role
+from app.schema.users import ProfilePublic, UserCreate, UserPublic, UserUpdate
 
 CurrentUserWithRolePassed = Annotated[
     CurrentUser, Depends(get_role(["admin", "student"]))

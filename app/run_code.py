@@ -1,6 +1,7 @@
-import sys
 import io
 import re
+import sys
+
 from app.models import TestCaseBase
 
 

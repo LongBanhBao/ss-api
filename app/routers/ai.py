@@ -1,10 +1,11 @@
 from uuid import UUID
+
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 
-from app.run_ai import run_prompt, create_prompt_check_code
 from app.database import SessionDep
 from app.models import Assignment
+from app.run_ai import create_prompt_check_code, run_prompt
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 

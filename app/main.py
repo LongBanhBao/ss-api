@@ -1,12 +1,11 @@
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import create_db_and_tables
-
-from app.routers import auth, users, assignments, ai, submissions, savedcode
-
 from app.config import get_settings
+from app.database import create_db_and_tables
+from app.routers import ai, assignments, auth, savedcode, submissions, users
 
 
 @asynccontextmanager
@@ -23,10 +22,7 @@ settings = get_settings()
 
 app = FastAPI(lifespan=lifespan)
 
-origins = [
-    "http://localhost:5173",
-    settings.FRONTEND_ORIGIN,
-]
+origins = [settings.FRONTEND_ORIGIN if settings.ENVIRONMENT != "development" else "*"]
 
 app.add_middleware(
     CORSMiddleware,

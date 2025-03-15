@@ -1,10 +1,11 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import select
 from uuid import UUID
 
-from app.models import Assignment, TestCase
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlmodel import select
+
 from app.database import SessionDep
+from app.models import Assignment, TestCase
 from app.routers.auth import CurrentUser, get_role
 from app.run_code import create_result
 from app.schema.assignments import (

@@ -1,10 +1,9 @@
-from sqlmodel import SQLModel, Session, create_engine
 from typing import Annotated
-from fastapi import Depends
-from app.config import get_settings
 
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+from fastapi import Depends
+from sqlmodel import Session, SQLModel, create_engine
+
+from app.config import get_settings
 
 DATABASE_URL = get_settings().DATABASE_URL
 

@@ -1,11 +1,11 @@
 from typing import Annotated
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import select
 
-from uuid import UUID
-
-from app.models import Class
 from app.database import SessionDep
+from app.models import Class
 from app.routers.auth import CurrentUser, get_role
 from app.schema.classes import (
     ClassCreate,

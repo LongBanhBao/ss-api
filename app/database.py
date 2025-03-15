@@ -7,8 +7,12 @@ from app.config import get_settings
 
 DATABASE_URL = get_settings().DATABASE_URL
 
+url = f"sqlite:///test.db"
 
-engine = create_engine(url=DATABASE_URL, echo=True)
+if not DATABASE_URL.startswith("postgresql"):
+    engine = create_engine(url=url, echo=True)
+else:
+    engine = create_engine(url=DATABASE_URL, echo=True)
 
 
 def get_session():

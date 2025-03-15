@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     EMAIL_PASSWORD: str
     EMAIL_FROM: str
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env.local")
 
 
 @lru_cache

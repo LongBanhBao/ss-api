@@ -31,7 +31,7 @@ async def create_submission(
     if len(test_cases) == 0:
         raise HTTPException(status_code=400, detail="Bài tập không có test case")
 
-    hidden_test_cases = [tc for tc in test_cases if tc.type == "hidden"]
+    hidden_test_cases = [tc for tc in test_cases if tc.type != "sample"]
 
     try:
         result = create_result(data.code, hidden_test_cases)
